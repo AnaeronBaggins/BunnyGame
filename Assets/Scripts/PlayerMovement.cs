@@ -5,6 +5,7 @@ public class PlayerMovement : MonoBehaviour
 
     Rigidbody2D player;
     public float speed = 10.0f;
+    public float inAirSpeed = 5.0f;
     public float jumpPower = 2.0f;
     bool isGrounded = false;
     bool isMoving = true;
@@ -24,20 +25,41 @@ public class PlayerMovement : MonoBehaviour
     }
     public void Movement()
     {
-        if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
+        if (isMoving)
         {
-            player.velocity = new Vector2(speed, player.velocity.y);
-            isMoving = true;
-        }
-        else if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
-        {
-            player.velocity = new Vector2(-speed, player.velocity.y);
-            isMoving = true;
+            if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
+            {
+                player.velocity = new Vector2(speed, player.velocity.y);
+                isMoving = true;
+            }
+            else if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
+            {
+                player.velocity = new Vector2(-speed, player.velocity.y);
+                isMoving = true;
+            }
+            else
+            {
+                isMoving = false;
+            }
         }
         else
         {
-            isMoving = false;
+            if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
+            {
+                player.velocity = new Vector2(inAirSpeed, player.velocity.y);
+                isMoving = true;
+            }
+            else if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
+            {
+                player.velocity = new Vector2(-inAirSpeed, player.velocity.y);
+                isMoving = true;
+            }
+            else
+            {
+                isMoving = false;
+            }
         }
+        
     }
 
     public void Jump()
